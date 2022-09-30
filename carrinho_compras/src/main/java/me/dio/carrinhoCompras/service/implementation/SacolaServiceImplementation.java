@@ -3,13 +3,17 @@ package me.dio.carrinhoCompras.service.implementation;
 import lombok.RequiredArgsConstructor;
 import me.dio.carrinhoCompras.enumeration.FormaPagamento;
 import me.dio.carrinhoCompras.model.Item;
+import me.dio.carrinhoCompras.model.Restaurante;
 import me.dio.carrinhoCompras.model.Sacola;
+import me.dio.carrinhoCompras.repository.ItemRepository;
+import me.dio.carrinhoCompras.repository.ProdutoRepository;
 import me.dio.carrinhoCompras.repository.SacolaRepository;
 import me.dio.carrinhoCompras.resource.SacolaResource;
 import me.dio.carrinhoCompras.resource.dto.ItemDto;
 import me.dio.carrinhoCompras.service.SacolaService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,6 +21,8 @@ import java.util.Optional;
 public class SacolaServiceImplementation implements SacolaService {
 
     private final SacolaRepository sacolaRepository;
+    private final ProdutoRepository produtoRepository;
+    private final ItemRepository itemRepository;
     @Override
     public Sacola verSacola(Long id) {
 //      Forma que eu fiz
@@ -50,6 +56,30 @@ public class SacolaServiceImplementation implements SacolaService {
 
     @Override
     public Item incluirItem(ItemDto itemDto) {
-        return null;
+        Sacola sacolaEncontrada = verSacola(itemDto.getIdSacola());
+        if(sacolaEncontrada.isFinalizada()) {
+            throw new RuntimeException("Sacola já finalizada.");
+        }
+        Item item = Item.builder()
+                .quantidade(itemDto.getQuantidade())
+                .sacola(sacolaEncontrada)
+                .produto(produtoRepository.findById(itemDto.getIdProduto()).orElseThrow(() -> {
+                    throw new RuntimeException("Produto não encontrada.");
+                })).build();
+
+        List<Item> itens = sacolaEncontrada.getItens();
+        if(itens.isEmpty()) {
+            itens.add(item);
+        } else {
+            Restaurante restauranteAtual = itens.get(0).getProduto().getRestaurante();
+            Restaurante restauranteProdutoInserindo = item.getProduto().getRestaurante();
+            if(restauranteAtual.getId() == restauranteProdutoInserindo.getId()) {
+                itens.add(item);
+            } else {
+                throw new RuntimeException("Não é possível adicionar itens de Restaurantes diferentes.");
+            }
+        }
+        sacolaRepository.save(sacolaEncontrada);
+        return itemRepository.save(item);
     }
 }
