@@ -18,7 +18,7 @@ public class Produto {
     @Builder.Default
     private Boolean disponivel = true;
 
-    @ManyToMany
+    @ManyToOne
     @JsonIgnore
     private Restaurante restaurante;
 

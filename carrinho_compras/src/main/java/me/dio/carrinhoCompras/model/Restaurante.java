@@ -1,9 +1,20 @@
 package me.dio.carrinhoCompras.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@AllArgsConstructor
+@Builder
+@Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@NoArgsConstructor
 public class Restaurante {
 
     @Id
@@ -17,46 +28,4 @@ public class Restaurante {
 
     @Embedded
     private Endereco endereco;
-
-    public Restaurante() {
-    }
-
-    public Restaurante(Long id, String nome, List<Produto> cardapio, Endereco endereco) {
-        this.id = id;
-        this.nome = nome;
-        this.cardapio = cardapio;
-        this.endereco = endereco;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public List<Produto> getCardapio() {
-        return cardapio;
-    }
-
-    public void setCardapio(List<Produto> cardapio) {
-        this.cardapio = cardapio;
-    }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
 }

@@ -15,7 +15,6 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 @Builder
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @NoArgsConstructor
 @Embeddable
 public class Endereco {
