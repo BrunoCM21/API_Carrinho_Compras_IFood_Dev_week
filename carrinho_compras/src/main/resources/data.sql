@@ -14,6 +14,6 @@ INSERT INTO produto (id, nome, valor_unitario, disponivel, restaurante_id) VALUE
 (4L, 'Arroz e Feijão Executivo + Filé de Frango', 27.90, true, 2L);
 
 INSERT INTO sacola (id, forma_pagamento, cliente_id, valor_total, finalizada) VALUES
-(1L, 0, 1L, 25.99, false),
-(2L, 1, 2L, 29.99, true),
-(3L, 0, 1L, 22.00, false);
+(1L, 0, 1L, 0, false),
+(2L, 1, 2L, 0, true),
+(3L, 0, 1L, 0, false);

@@ -1,5 +1,6 @@
 package me.dio.carrinhoCompras.resource;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import me.dio.carrinhoCompras.model.Item;
 import me.dio.carrinhoCompras.model.Sacola;
@@ -7,6 +8,7 @@ import me.dio.carrinhoCompras.resource.dto.ItemDto;
 import me.dio.carrinhoCompras.service.SacolaService;
 import org.springframework.web.bind.annotation.*;
 
+@Api(value = "/devWeek/sacolas")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/devWeek/sacolas")
